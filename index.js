@@ -1,7 +1,7 @@
 const express = require('express');
-const user_router = require("./routers/user");
-const post_router = require("./routers/post");
-const project_router = require("./routers/project");
+const user_router = require("./src/routers/user");
+const post_router = require("./src/routers/post");
+const project_router = require("./src/routers/project");
 const server = express();
 
 server.use(express.json()); //gelen bütün istekleri json formatında dönderir gibi bir şey

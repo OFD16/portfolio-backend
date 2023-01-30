@@ -13,10 +13,10 @@ module.exports = {
                 password: "admin",
         },
         migrations: {
-            directory: "./data/migrations"
+            directory: "./src/data/migrations"
         },
         seeds: {
-            directory: "./data/seeds"
+            directory: "./src/data/seeds"
         }
     },
     production: {
