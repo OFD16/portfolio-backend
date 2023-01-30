@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
     return knex.schema.createTable('user', (table) => {
-            table.increments().notNullable();
+            table.increments('id').notNullable();
             table.string('created_at').notNullable();
             table.string('updated_at');
             table.string('first_name').notNullable();
@@ -25,8 +25,9 @@ exports.up = function (knex) {
             table.string('password');
         })
         .createTable('project', (table) => {
-            table.increments().notNullable();
+            table.increments('id').notNullable();
             table.integer('user_id').notNullable();
+            //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('project_name').notNullable();
             table.string('project_type');
             table.string('project_title').notNullable();
@@ -41,18 +42,18 @@ exports.up = function (knex) {
             .onDelete('CASCADE');
         })
         .createTable('post', (table) => {
-            table.increments().notNullable();
+            table.increments('id').notNullable();
             table.integer('user_id').notNullable();
+            //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('post_name').notNullable();
             table.string('post_type');
             table.string('post_title').notNullable();
             table.string('post_intro').notNullable();
             table.string('intro_image').notNullable();
-            table.string('post_owner').notNullable();
             table.jsonb('medias');                      //kullanmıycağız şimdilik ama koyuyorum değişeiblir diye
             table.specificType('paragraphs', 'jsonb[]');
             table.specificType('links', 'text[]');
-            table.foreign('post_owner').references('user.id')
+            table.foreign('user_id').references('user.id')
             .onUpdate('CASCADE')
             .onDelete('CASCADE');
         })

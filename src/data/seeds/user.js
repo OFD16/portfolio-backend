@@ -7,7 +7,7 @@ exports.seed = async function (knex) {
   await knex('user').del()
   await knex('user').insert([
     {
-      id: 1,
+      id: 0,
       created_at: "02/04/2021",
       updated_at: "02/04/2022",
       first_name: "Betül",
@@ -23,7 +23,6 @@ exports.seed = async function (knex) {
         github: "https://github.com/OFD16",
       },
       introduction: "I am a 20-year-old, self-taught freelance UI/UX designer based in Turkey. My passion is to using design to inspire and impact others, so I make it a point to constantly improve my skills and write my learnings in both English and Turkish.",
-
       description: "Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. ",
       medias: {
         videos: ["https://www.youtube.com/watch?v=lSIWNfNzJ18", "https://www.youtube.com/watch?v=G1GgjXbc6VM"],
@@ -51,7 +50,8 @@ exports.seed = async function (knex) {
   await knex('project').del()
   await knex('project').insert([
     {
-      id: 0,
+      id: 1,
+      user_id: 0,
       project_name: "proje adı",
       project_type: "proje tipi",
       project_title: "proje başlıpı",
@@ -84,46 +84,13 @@ exports.seed = async function (knex) {
       members: ["ali", "ayşe"],
       links: ["https://www.twitch.tv/", "https://www.twitch.tv/elraenn"]
     },
-    {
-      id: 1,
-      project_name: "proje adı 1",
-      project_type: "proje tipi 1",
-      project_title: "proje başlıpı 1",
-      intro_image: "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
-      project_intro: "1 I am a 20-year-old, self-taught freelance UI/UX designer based in Turkey. My passion is to using design to inspire and impact others, so I make it a point to constantly improve my skills and write my learnings in both English and Turkish.",
-      paragraphs: [
-        {
-          first_video: "",
-          first_image: "",
-          left_image: "",
-          paragpaph: "1 Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. ",
-          right_image: "",
-          last_image: "",
-          last_video: "",
-        },
-        {
-          first_video: "",
-          first_image: "",
-          left_image: "",
-          paragpaph: "1 Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. Lorem ipsum dolor sit amet consectetur. In volutpat sed quis tortor magna libero mi. At aliquam nec consectetur sem eget nunc aliquam. In adipiscing sit tristique nunc sodales. Id nisi libero massa mi senectus quis. Erat varius tortor lobortis et nunc laoreet cras. ",
-          right_image: "",
-          last_image: "",
-          last_video: "",
-        }
-      ],
-      medias: {
-        videos: ["https://www.youtube.com/watch?v=lSIWNfNzJ18", "https://www.youtube.com/watch?v=G1GgjXbc6VM"],
-        images: ["https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"],
-      },
-      members: ["1ali", "a1yşe"],
-      links: ["https://www.twitch.tv/", "https://www.twitch.tv/elraenn"]
-    }
   ]);
 
   await knex('post').del()
   await knex('post').insert([
     {
       id: 1,
+      user_id: 0,
       post_name: "post adı 1",
       post_type: "post tipi 1",
       post_title: "post başlıpı 1",
@@ -153,9 +120,8 @@ exports.seed = async function (knex) {
         videos: ["https://www.youtube.com/watch?v=lSIWNfNzJ18", "https://www.youtube.com/watch?v=G1GgjXbc6VM"],
         images: ["https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"],
       },
-      post_owner: "betül",
       links: ["https://www.twitch.tv/", "https://www.twitch.tv/elraenn"]
-    }
+    },
   ]);
 };
 
