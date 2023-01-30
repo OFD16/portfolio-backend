@@ -36,6 +36,9 @@ exports.up = function (knex) {
             table.jsonb('medias');                      //kullanmıycağız şimdilik ama koyuyorum değişeiblir diye
             table.specificType('paragraphs', 'jsonb[]');
             table.specificType('links', 'text[]');
+            table.foreign('user_id').references('user.id')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
         })
         .createTable('post', (table) => {
             table.increments().notNullable();
@@ -49,6 +52,9 @@ exports.up = function (knex) {
             table.jsonb('medias');                      //kullanmıycağız şimdilik ama koyuyorum değişeiblir diye
             table.specificType('paragraphs', 'jsonb[]');
             table.specificType('links', 'text[]');
+            table.foreign('post_owner').references('user.id')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
         })
 };
 
