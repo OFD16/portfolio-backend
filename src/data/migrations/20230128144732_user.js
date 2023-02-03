@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
     return knex.schema.createTable('user', (table) => {
-            table.increments('id').notNullable();
+            table.increments('id');
             table.string('created_at').notNullable();
             table.string('updated_at');
             table.string('first_name').notNullable();
@@ -25,7 +25,7 @@ exports.up = function (knex) {
             table.string('password');
         })
         .createTable('project', (table) => {
-            table.increments('id').notNullable();
+            table.increments('id');
             table.integer('user_id').notNullable();
             //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('project_name').notNullable();
@@ -42,7 +42,7 @@ exports.up = function (knex) {
             .onDelete('CASCADE');
         })
         .createTable('post', (table) => {
-            table.increments('id').notNullable();
+            table.increments('id');
             table.integer('user_id').notNullable();
             //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('post_name').notNullable();
