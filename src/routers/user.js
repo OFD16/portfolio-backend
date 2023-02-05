@@ -9,25 +9,27 @@ router.get('/', (req, res) => {
         .catch(error => {
             next({
                 statusCode: 500,
-                errorMessage: "Hiç proje bulunamadı :( az ekle.",
+                errorMessage: "Hiç kullanıcı bulunamadı!",
                 error,
             })
         });
 });
 
-//+
-router.post('/', async (req, res, next) => {
+router.post('/', (req, res, next) => {
     const newUser = req.body;
-
-    const user = await users.addUser(newUser)
-        .then((added) => {
-            res.status(201).json(newUser);
-        }).catch((error) => {
-            next({
-                statusCode: 500,
-                errorMessage: "Error adding user. Please try again later!",
-                error,
-            })
+    const id = req.body.id;
+    users.getUserByID(id)
+        .then((user) => {
+            if (user !== undefined) {
+                res.status(400).json({
+                    statusCode: 400,
+                    errorMessage: "Kullanıcı oluşturulamadı! Çünkü bu kullanıcı zaten mevcut!"
+                })
+            } else {
+                users.addUser(newUser)
+                    .then((addedUser) => res.status(201).json(addedUser))
+                    .catch(error => next(error));
+            }
         })
 });
 
@@ -47,14 +49,14 @@ router.patch('/:id', (req, res, next) => {
                     }).catch((error) => {
                         next({
                             statusCode: 500,
-                            errorMessage: "User güncellenirken hata oluştu daha sonra tekrar deneyiniz!",
+                            errorMessage: "Kullanıcı güncellenirken hata oluştu daha sonra tekrar deneyiniz!",
                             error,
                         })
                     })
             } else {
                 res.status(400).json({
                     statusCode: 400,
-                    errorMessage: "Güncellemeye çalıştığınız user bulunamadı!",
+                    errorMessage: "Güncellemeye çalıştığınız kullanıcı bulunamadı!",
                 })
             }
         })
@@ -105,10 +107,14 @@ router.get('/:id', (req, res, next) => {
         .catch((error) => {
             next({
                 statusCode: 500,
-                errorMessage: "kullanıcı aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
+                errorMessage: "Kullanıcı aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
                 error,
             })
         })
+});
+
+router.use((error, req, res, next) => {
+    res.status(500).json({ message: error.message });
 });
 
 module.exports = router;

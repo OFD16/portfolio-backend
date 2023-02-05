@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const projects = require('../data/models/project');
-
+const { getUserByID } = require('../data/models/user');
+//+
 router.get('/', (req, res) => {
     projects.getProjects()
-        .then(projects => {
+        .then((projects) => {
             res.status(200).json(projects);
         })
         .catch(error => {
@@ -15,112 +16,125 @@ router.get('/', (req, res) => {
         });
 });
 
-//errorhandling hatalı
 router.post('/', (req, res, next) => {
     const newProject = req.body;
+    const id = req.body.id;
+    const user_id = req.body.user_id;
 
-    if (!newProject.user_id && !newProject.project_name && !newProject.project_title && !newProject.project_intro && !newProject.intro_image) {
-        next({
-            statusCode: 400,
-            errorMessage: "Gönderdiğin veride proje sahibini id'si, proje adı, proje başlığı, proje introsu ve proje intro resmi olmak zorunda bunlardan biri eksik olabilir!",
+    projects.getProjectByID(id)
+        .then((project) => {
+            if (project !== undefined) {
+                res.status(400).json({
+                    statusCode: 400,
+                    errorMessage: "Eklemeye çalıştığın proje zaten mevcut görünüyor."
+                });
+            } else {
+                getUserByID(user_id)
+                    .then((user) => {
+                        if (user !== undefined) {
+                            projects.addProject(newProject)
+                                .then((createdProject) => res.status(201).json(createdProject))
+                                .catch(error => next(error));
+                        } else {
+                            res.status(400).json({
+                                statusCode: 400,
+                                errorMessage: "eklemeye çalıştığınız projenin sahibi mevcut değil!",
+                            })
+                        }
+                    }).catch((error) => {
+                        next({
+                            statusCode: 500,
+                            errorMessage: "Kullanıcı aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
+                            error,
+                        })
+                    });
+            }
         })
-    } else {
-        projects.addProject(newProject)
-            .then((added) => {
-                res.status(201).json(added);
-            }).catch((error) => {
-                next({
-                    statusCode: 500,
-                    errorMessage: "Proje oluşturulurken hata oluştu daha sonra tekrar deneyiniz!",
-                    error,
-                })
-            })
-    }
+
 });
 
-//errorhandling hatalı
 //put ile patch arasındaki farkı put kullanırsanız bütün değerleri göndermeniz gerekir ama path kullanırsanız sadece değiştirmek istediğiniz değeri gönderirseniz yeterlidir
+//+ id değiştirilemez onu değiştirmeye çalışma
 router.patch('/:id', (req, res, next) => {
+
     const { id } = req.params;
     const updatedProject = req.body;
 
-    if (!updatedProject.user_id && !updatedProject.project_name && !updatedProject.project_title && !updatedProject.project_intro && !updatedProject.intro_image) {
-        next({
-            statusCode: 400,
-            errorMessage: "Gönderdiğin veride proje sahibini id'si, proje adı, proje başlığı, proje introsu ve proje intro resmi olmak zorunda bunlardan biri eksik olabilir!",
-        })
-    } else {
-        projects.updateProject(updatedProject, id)
-            .then((updated) => {
-                res.status(200).json(updated)
-            }).catch((error) => {
-                next({
-                    statusCode: 500,
-                    errorMessage: "project güncellenirken hata oluştu daha sonra tekrar deneyiniz!",
-                    error,
+    projects.getProjectByID(id)
+        .then((project) => {
+            if (project !== undefined) {
+                projects.updateProject(updatedProject, id)
+                    .then((updated) => {
+                        res.status(200).json(updated)
+                    }).catch((error) => {
+                        next({
+                            statusCode: 500,
+                            errorMessage: "Proje güncellenirken hata oluştu daha sonra tekrar deneyiniz!",
+                            error,
+                        })
+                    })
+            } else {
+                res.status(400).json({
+                    statusCode: 400,
+                    errorMessage: "Güncellemeye çalıştığınız proje bulunamadı!",
                 })
-            })
-    }
-
-
+            }
+        })
 });
 
-//errorhandling hatalı
+//+
 router.delete('/:id', (req, res, next) => {
     const { id } = req.params;
     //veritabanında bu id ye sahip bir actor varmı checklemek gerekiyor
 
     projects.getProjectByID(id)
-        .then((isExist) => {
-            projects.deleteProject(id)
-                .then((deleted) => {
-                    if (deleted) {
+        .then((project) => {
+            if (project !== undefined) {
+                projects.deleteProject(id)
+                    .then((deleted) => {
                         res.status(204).end();
-                    } else {
+                    }).catch((error) => {
                         next({
-                            statusCode: 400,
-                            errorMessage: "Silmeye çalıştığınız proje bulunamadı!",
+                            statusCode: 500,
+                            errorMessage: "Proje silinirken hata oluştu daha sonra tekrar deneyiniz!",
+                            error,
                         })
-                    }
-                }).catch((error) => {
-                    next({
-                        statusCode: 500,
-                        errorMessage: "proje silinirken hata oluştu daha sonra tekrar deneyiniz!",
-                        error,
                     })
-                })
-        }).catch((error) => {
-            next({
-                statusCode: 500,
-                errorMessage: "Silmek istediğiniz proje bulunmadı!",
-                error,
-            })
+            } else {
+                res.status(400).json({
+                    statusCode: 400,
+                    errorMessage: "Silmek istediğiniz proje bulunmadı!",
+                });
+            }
         })
 });
 
-//errorhandling hatalı
+//+
 router.get('/:id', (req, res, next) => {
     const { id } = req.params;
 
     projects.getProjectByID(id)
         .then((project) => {
-            if (project) {
+            if (project !== undefined) {
                 res.status(200).json(project);
             } else {
-                next({
+                res.status(400).json({
                     statusCode: 400,
-                    errorMessage: "aradığınız proje bulunamadı!",
+                    errorMessage: "Proje bulunamadı!",
                 })
             }
         })
         .catch((error) => {
             next({
                 statusCode: 500,
-                errorMessage: "proje aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
+                errorMessage: "Proje aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
                 error,
             })
         })
 });
 
+router.use((error, req, res, next) => {
+    res.status(500).json({ message: error.message });
+});
 
 module.exports = router;

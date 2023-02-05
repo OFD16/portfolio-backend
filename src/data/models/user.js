@@ -17,10 +17,12 @@ function getUserByID(id) {
 }
 
 function addUser(newUser) {
-    var id = parseInt(newUser.id);
+
     return db('user')
-        .insert(newUser, 'id')
+        .insert(newUser)
+        .returning('id')
         .then(([id]) => {
+            var id = parseInt(newUser.id);
             return db('user').where({ id }).first();
         });
 }

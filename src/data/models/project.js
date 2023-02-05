@@ -2,14 +2,14 @@ const db = require('../db-config');
 
 module.exports = {
     getProjects,
+    getProjectByID,
     addProject,
     updateProject,
     deleteProject,
-    getProjectByID,
 }
 
 function getProjects() {
-    return db('project');  // db.select('Project'); same
+    return db('project');  // db.select('User'); same
 }
 
 function getProjectByID(id) {
@@ -17,10 +17,13 @@ function getProjectByID(id) {
 }
 
 function addProject(newProject) {
+
     return db('project')
-        .insert(newProject, 'id')
+        .insert(newProject)
+        .returning('id')
         .then(([id]) => {
-            return db('project').where({ id }).first();
+            var id = parseInt(newProject.id);
+            return db('user').where({ id }).first();
         });
 }
 
@@ -30,14 +33,12 @@ function updateProject(updatedProject, id) {
         .where({ id })
         .then(updated => {
             if (updated) {
-                console.log(`updatedProject id: ${id} `, db('project').where({ id }).first());
                 return db('project').where({ id }).first();
             }
         })
 }
 
-//.where kullanmazsak büütün Project isimleri günceller yada siler
+//.where kullanmazsak büütün User isimleri günceller yada siler
 function deleteProject(id) {
-    console.log(`deleteProject id: ${id} `, db('project').del().where({ id }));
     return db('project').del().where({ id });
 }

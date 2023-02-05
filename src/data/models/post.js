@@ -2,28 +2,28 @@ const db = require('../db-config');
 
 module.exports = {
     getPosts,
+    getPostByID,
     addPost,
     updatePost,
     deletePost,
-    getPostByID,
 }
 
 function getPosts() {
-    //console.log('postlar: ' , db('post'));
-    return db('post');  // db.select('Post'); same
+    return db('post');  // db.select('User'); same
 }
 
 function getPostByID(id) {
-    //console.log(`getPostByID: id : ${id} `, db('post').where({ id }).first());
     return db('post').where({ id }).first();
 }
 
 function addPost(newPost) {
+
     return db('post')
-        .insert(newPost, 'id')
+        .insert(newPost)
+        .returning('id')
         .then(([id]) => {
-            console.log("added kesin: ", json(db('post').where({ id }).first()));
-            return db('post').where({ id }).first();
+            var id = parseInt(newPost.id);
+            return db('user').where({ id }).first();
         });
 }
 
@@ -33,14 +33,12 @@ function updatePost(updatedPost, id) {
         .where({ id })
         .then(updated => {
             if (updated) {
-                //console.log(`updatedPost id: ${id} `, db('post').where({ id }).first());
                 return db('post').where({ id }).first();
             }
-        });
+        })
 }
 
-//.where kullanmazsak büütün Post isimleri günceller yada siler
+//.where kullanmazsak büütün User isimleri günceller yada siler
 function deletePost(id) {
-    console.log(`deletePost id: ${id} `, db('post').del().where({ id }));
     return db('post').del().where({ id });
 }
