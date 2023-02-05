@@ -4,30 +4,30 @@
  */
 exports.up = function (knex) {
     return knex.schema.createTable('user', (table) => {
-            table.increments('id');
-            table.string('created_at').notNullable();
-            table.string('updated_at');
-            table.string('first_name').notNullable();
-            table.string('last_name').notNullable();
-            table.integer('age').notNullable();
-            table.string('email', 100);
-            table.text('user_image').notNullable();
-            table.jsonb('social_links'); //tek bir obje olcak
-            table.text('introduction');
-            table.text('description');
-            table.jsonb('medias');                          //şüpheliyim
-            table.specificType('marked_projects', 'int[]');
-            table.specificType('marked_blogs', 'int[]');
-            table.specificType('experiences', 'jsonb[]');
-            table.specificType('education', 'jsonb[]'); //objeler arrayi olcak
-            table.specificType('skills', 'jsonb[]');
-            table.string('sign_mail');
-            table.string('password');
-        })
+        table.increments('id').primary();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
+        table.string('role').notNullable();
+        table.string('first_name').notNullable();
+        table.string('last_name').notNullable();
+        table.integer('age');
+        table.string('email', 100);
+        table.text('user_image');
+        table.jsonb('social_links'); //tek bir obje olcak
+        table.text('introduction');
+        table.text('description');
+        table.jsonb('medias');                          //şüpheliyim
+        table.specificType('marked_projects', 'int[]');
+        table.specificType('marked_blogs', 'int[]');
+        table.specificType('experiences', 'jsonb[]');
+        table.specificType('education', 'jsonb[]'); //objeler arrayi olcak
+        table.specificType('skills', 'jsonb[]');
+        table.string('sign_mail').notNullable();
+        table.string('password').notNullable();
+    })
         .createTable('project', (table) => {
             table.increments('id');
             table.integer('user_id').notNullable();
-            //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('project_name').notNullable();
             table.string('project_type');
             table.string('project_title').notNullable();
@@ -37,14 +37,15 @@ exports.up = function (knex) {
             table.jsonb('medias');                      //kullanmıycağız şimdilik ama koyuyorum değişeiblir diye
             table.specificType('paragraphs', 'jsonb[]');
             table.specificType('links', 'text[]');
+            table.timestamp('created_at').defaultTo(knex.fn.now());
+            table.timestamp('updated_at').defaultTo(knex.fn.now());
             table.foreign('user_id').references('user.id')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE');
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
         })
         .createTable('post', (table) => {
             table.increments('id');
             table.integer('user_id').notNullable();
-            //table.integer('user_id').unsigned().references('user.id').notNullable();
             table.string('post_name').notNullable();
             table.string('post_type');
             table.string('post_title').notNullable();
@@ -53,9 +54,11 @@ exports.up = function (knex) {
             table.jsonb('medias');                      //kullanmıycağız şimdilik ama koyuyorum değişeiblir diye
             table.specificType('paragraphs', 'jsonb[]');
             table.specificType('links', 'text[]');
+            table.timestamp('created_at').defaultTo(knex.fn.now());
+            table.timestamp('updated_at').defaultTo(knex.fn.now());
             table.foreign('user_id').references('user.id')
-            .onUpdate('CASCADE')
-            .onDelete('CASCADE');
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
         })
 };
 
@@ -65,6 +68,6 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
     return knex.schema.dropTableIfExists('post')
-    .dropTableIfExists('project')
-    .dropTableIfExists('user');
+        .dropTableIfExists('project')
+        .dropTableIfExists('user');
 };

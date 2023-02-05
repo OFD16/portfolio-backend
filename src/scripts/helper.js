@@ -1,17 +1,17 @@
-// const CryptoJs = require("crypto-js");
+const CryptoJs = require("crypto-js");
 
-// class Helper {
-//     crypto(data){
-//         return CryptoJs
-//         .HmacSHA256(
-//             data, 
-//             CryptoJs
-//             .HmacSHA1(
-//                 data, 
-//                 process.env.PASS_SALT_KEY,
-//             ).toString(),
-//         ).toString();
-//     }
-// }
+class Helper {
+    crypto(data){
+        return CryptoJs
+        .HmacSHA256(
+            data, 
+            CryptoJs
+            .HmacSHA1(
+                data, 
+                "yoGeDICiOmAR",
+            ).toString(),
+        ).toString();
+    }
+}
 
-// module.exports = new Helper();
+module.exports = new Helper();

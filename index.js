@@ -2,9 +2,11 @@ const express = require('express');
 const user_router = require("./src/routers/user");
 const post_router = require("./src/routers/post");
 const project_router = require("./src/routers/project");
+
 const server = express();
 
 server.use(express.json()); //gelen bütün istekleri json formatında dönderir gibi bir şey
+
 server.use("/blogs", post_router);
 server.use("/projects", project_router);
 server.use("/users", user_router);
