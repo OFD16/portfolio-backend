@@ -18,39 +18,19 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res, next) => {
     const newPost = req.body;
-    const id = req.body.id;
     const user_id = req.body.user_id;
 
-    posts.getPostByID(id)
-        .then((post) => {
-            if (post !== undefined) {
-                res.status(400).json({
-                    statusCode: 400,
-                    errorMessage: "Eklemeye çalıştığın blog zaten mevcut görünüyor."
-                });
-            } else {
-                getUserByID(user_id)
-                    .then((user) => {
-                        if (user !== undefined) {
-                            posts.addPost(newPost)
-                                .then((createdPost) => res.status(201).json(createdPost))
-                                .catch(error => next(error));
-                        } else {
-                            res.status(400).json({
-                                statusCode: 400,
-                                errorMessage: "eklemeye çalıştığınız blog sahibi mevcut değil!",
-                            })
-                        }
-                    }).catch((error) => {
-                        next({
-                            statusCode: 500,
-                            errorMessage: "Kullanıcı aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
-                            error,
-                        })
-                    });
-            }
-        })
-
+    getUserByID(user_id)
+        .then(() => {
+            posts.addPost(newPost)
+                .then((createdPost) => res.status(201).json(createdPost))
+                .catch(error => next(error));
+        }).catch(() => {
+            res.status(400).json({
+                statusCode: 400,
+                errorMessage: "Eklemeye çalıştığınız projenin sahibi mevcut değil!",
+            });
+        });
 });
 
 //put ile patch arasındaki farkı put kullanırsanız bütün değerleri göndermeniz gerekir ama path kullanırsanız sadece değiştirmek istediğiniz değeri gönderirseniz yeterlidir

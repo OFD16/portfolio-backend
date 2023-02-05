@@ -1,26 +1,25 @@
 const router = require('express').Router();
 const users = require('../data/models/user');
 const auth = require('../data/models/auth');
-const helper = require('../scripts/helper');
 
-router.post('/login', (req, res, next) => {
-    const email = req.body.sign_mail;
-    const password = helper.crypto(req.body.password);
+// router.post('/login', (req, res, next) => {
+//     const email = req.body.sign_mail;
+//     const password = helper.crypto(req.body.password);
 
-    const token = auth.generateAuthToken(email, password);
-    users.login(email, password)
-        .then((user) => {
-            res.status(200).json({
-                statusCode: 200,
-                response: "Kullanıcı başarıyla giriş yaptı!",
-                user: user,
-                token: token,
-            });
-        })
-        .catch(error => {
-            res.status(404).json(error);
-        });
-});
+//     const token = auth.generateAuthToken(email, password);
+//     users.login(email, password)
+//         .then((user) => {
+//             res.status(200).json({
+//                 statusCode: 200,
+//                 response: "Kullanıcı başarıyla giriş yaptı!",
+//                 user: user,
+//                 token: token,
+//             });
+//         })
+//         .catch(error => {
+//             res.status(404).json(error);
+//         });
+// });
 
 //+
 router.get('/', (req, res) => {

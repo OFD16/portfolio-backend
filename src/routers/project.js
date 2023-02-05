@@ -18,39 +18,19 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res, next) => {
     const newProject = req.body;
-    const id = req.body.id;
     const user_id = req.body.user_id;
 
-    projects.getProjectByID(id)
-        .then((project) => {
-            if (project !== undefined) {
-                res.status(400).json({
-                    statusCode: 400,
-                    errorMessage: "Eklemeye çalıştığın proje zaten mevcut görünüyor."
-                });
-            } else {
-                getUserByID(user_id)
-                    .then((user) => {
-                        if (user !== undefined) {
-                            projects.addProject(newProject)
-                                .then((createdProject) => res.status(201).json(createdProject))
-                                .catch(error => next(error));
-                        } else {
-                            res.status(400).json({
-                                statusCode: 400,
-                                errorMessage: "eklemeye çalıştığınız projenin sahibi mevcut değil!",
-                            })
-                        }
-                    }).catch((error) => {
-                        next({
-                            statusCode: 500,
-                            errorMessage: "Kullanıcı aranırken bir sorun oluştu! Lütfen daha sonra tekrar dene.",
-                            error,
-                        })
-                    });
-            }
-        })
-
+    getUserByID(user_id)
+        .then(() => {
+            projects.addProject(newProject)
+                .then((createdProject) => res.status(201).json(createdProject))
+                .catch(error => next(error));
+        }).catch(() => {
+            res.status(400).json({
+                statusCode: 400,
+                errorMessage: "Eklemeye çalıştığınız projenin sahibi mevcut değil!",
+            });
+        });
 });
 
 //put ile patch arasındaki farkı put kullanırsanız bütün değerleri göndermeniz gerekir ama path kullanırsanız sadece değiştirmek istediğiniz değeri gönderirseniz yeterlidir

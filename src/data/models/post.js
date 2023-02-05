@@ -20,10 +20,9 @@ function addPost(newPost) {
 
     return db('post')
         .insert(newPost)
-        .returning('id')
-        .then(([id]) => {
-            var id = parseInt(newPost.id);
-            return db('user').where({ id }).first();
+        .returning('*')
+        .then(([addedPost]) => {
+            return addedPost;
         });
 }
 

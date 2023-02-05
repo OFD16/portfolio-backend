@@ -21,6 +21,14 @@ const verifyAuthToken = (token) => {
     });
 }
 
+const checkTokenTime = (token) => {
+    const currentTime = Math.floor(Date.now() / 1000);
+    const tokenExpiration = jwt.verify(token, secretKey).exp;
+    const minutesUntilExpiration = (tokenExpiration - currentTime) / 60;
+    
+    return minutesUntilExpiration;
+}
+
 const authenticate = (req, res, next) => {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
@@ -38,5 +46,6 @@ const authenticate = (req, res, next) => {
 module.exports = {
     generateAuthToken,
     verifyAuthToken,
-    authenticate
+    authenticate,
+    checkTokenTime,
 };

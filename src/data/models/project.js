@@ -20,10 +20,9 @@ function addProject(newProject) {
 
     return db('project')
         .insert(newProject)
-        .returning('id')
-        .then(([id]) => {
-            var id = parseInt(newProject.id);
-            return db('user').where({ id }).first();
+        .returning('*')
+        .then(([addedProject]) => {
+            return addedProject;
         });
 }
 
