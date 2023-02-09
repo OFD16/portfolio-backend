@@ -16,12 +16,18 @@ function getUsers() {
     return db('user').select(columns);
 }
 
-function getUserByID(id, currentUserRole = "notAdmin") {
+function getUserByID(id, currentUserRole = 'notAdmin') {
     if (currentUserRole !== 'admin') {
-        return db('user').where({ id }).first().then(({ sign_mail, password, ...user }) => user);
+      return db('user').where({ id }).first().then(user => {
+        if (!user) {
+          return undefined;
+        }
+        const { sign_mail, password, ...restUser } = user;
+        return restUser;
+      });
     }
     return db('user').where({ id }).first();
-}
+  }
 
 function login(sign_mail, password) {
     return db('user')

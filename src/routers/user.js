@@ -103,7 +103,7 @@ router.delete('/:id', (req, res, next) => {
     if (isAuth.success) {
         users.getUserByID(id)
             .then((user) => {
-                if (user !== undefined) {
+                if (user !== undefined || null) {
                     users.deleteUser(id, currentUserRole)
                         .then((deleted) => {
                             res.status(204).end();

@@ -10,6 +10,7 @@ exports.seed = async function (knex) {
       first_name: "Ömer Faruk",
       last_name: "Demirsoy",
       age: 23,
+      role: "admin",
       email: "omerdmrsy@gmail.com",
       user_image: "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
       social_links: {
