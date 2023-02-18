@@ -3,5 +3,4 @@ build:
 
 hooks:
   post_build:
-    - npx knex migrate:up
     - npx knex seed:run
