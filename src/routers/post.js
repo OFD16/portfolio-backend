@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res, next) => {
     const newPost = req.body;
+    console.log('gelen user id: ', req.body.user_id);
     const user_id = req.body.user_id;
 
     getUserByID(user_id)

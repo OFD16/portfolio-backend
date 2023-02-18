@@ -20,6 +20,18 @@ module.exports = {
         }
     },
     production: {
+        client: "render",
+        connection: {
+            database: "productiondb_m46z",
+            user: "adminser",
+            password: "qtx1vnUPKEEJb9XbiCvmayrVhivlRMSv"
+        },
+        migrations: {
+            directory: "./src/data/migrations"
+        },
+        seeds: {
+            directory: "./src/data/seeds"
+        }
         //api ımızı deploy ettiğimiz servis bağlantıları olucak
     }
 }
