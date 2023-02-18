@@ -1,5 +1,5 @@
 build:
-  command: node index.js
+  command: npx knex migrate:up
 
 hooks:
   post_build:
