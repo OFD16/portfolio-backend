@@ -42,7 +42,7 @@ exports.seed = async function (knex) {
       ],
       role: 'admin',
       sign_mail: "omer@gmail.com",
-      password: "123456"
+      password: "43b7e1decf4be5e0bad3b4f6296eb3539d03893700683e34e4e49115cdfd602b" //şifre: 123456
     },
   ]);
 
