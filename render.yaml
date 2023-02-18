@@ -3,5 +3,6 @@ build:
 
 hooks:
   post_build:
-    - npx knex migrate:up
-    - npx knex seed:run
+    - npm install knex -g
+    - knex migrate:latest --env production
+    - knex seed:run --env production
