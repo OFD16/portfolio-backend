@@ -41,5 +41,5 @@ server.post('/login', (req, res, next) => {
 const port = process.env.PORT || 3000;
 
 server.listen(port, "0.0.0.0", () => {
-    console.log('https://portfolio-users.onrender.com adresine gelen istekler dinleniyor');
+    console.log('https://mavimb.adaptable.app/ adresine gelen istekler dinleniyor');
 });

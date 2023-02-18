@@ -22,10 +22,10 @@ module.exports = {
     production: {
         client: "pg",
         connection: {
-            host: "postgres://mavim-main-db-0a631532d113acdfd:W1FyCpvm1BVu6WKEpeYTjuputgERqr@user-prod-us-east-2-1.cluster-cfi5vnucvv3w.us-east-2.rds.amazonaws.com:5432/mavim-main-db-0a631532d113acdfd",
-            database: "postgres",
-            user: "postgres",
-            password: "postgres"
+            host: "user-prod-us-east-2-1.cluster-cfi5vnucvv3w.us-east-2.rds.amazonaws.com",
+            database: "mavimb-main-db-0a3cadc7b7f179a37",
+            user: "mavimb-main-db-0a3cadc7b7f179a37",
+            password: "f2pphhh1vNK9GFCR8c4UVUrf8BqwRR"
         },
         migrations: {
             directory: "./src/data/migrations"
