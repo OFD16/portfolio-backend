@@ -38,7 +38,8 @@ server.post('/login', (req, res, next) => {
             res.status(404).json(error);
         });
 });
+const port = process.env.PORT || 3000;
 
-server.listen(5000, () => {
+server.listen(port, "0.0.0.0", () => {
     console.log('https://portfolio-users.onrender.com adresine gelen istekler dinleniyor');
 });
