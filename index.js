@@ -7,14 +7,14 @@ const project_router = require("./src/routers/project");
 const auth = require('./src/data/models/auth');
 const helper = require('./src/scripts/helper');
 const users = require('./src/data/models/user');
-
+const baseURL = "http://mavimb.adaptable.app";
 const server = express();
 
 server.use(express.json()); //gelen bütün istekleri json formatında dönderir gibi bir şey
 
-server.use("/users", user_router);
+server.use(`${baseURL}/users`, user_router);
 
-server.post('/login', (req, res, next) => {
+server.post(`${baseURL}/login`, (req, res, next) => {
     const email = req.body.sign_mail;
     const password = helper.crypto(req.body.password);
     console.log("şifre: " ,password);
@@ -23,8 +23,8 @@ server.post('/login', (req, res, next) => {
     const tokenTime = auth.checkTokenTime(token);
     users.login(email, password)
         .then((user) => {
-            server.use("/blogs", post_router);
-            server.use("/projects", project_router);
+            server.use(`${baseURL}/blogs`, post_router);
+            server.use(`${baseURL}/projects`, project_router);
             res.status(200).json({
                 statusCode: 200,
                 response: "Kullanıcı başarıyla giriş yaptı!",
@@ -41,5 +41,5 @@ server.post('/login', (req, res, next) => {
 const port = process.env.PORT || 3000;
 
 server.listen(port, "0.0.0.0", () => {
-    console.log('https://mavimb.adaptable.app/ adresine gelen istekler dinleniyor');
+    console.log(`${baseURL} adresine gelen istekler dinleniyor`);
 });
