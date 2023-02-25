@@ -40,6 +40,6 @@ server.post("/login", (req, res, next) => {
 });
 const port = process.env.PORT || 3000;
 
-server.listen(port, "0.0.0.0", () => {
+server.listen(baseURL, "0.0.0.0", () => {
     console.log(`${baseURL} adresine gelen istekler dinleniyor`);
 });
