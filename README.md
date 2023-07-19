@@ -27,7 +27,6 @@ to remove seeds : ```npx knex seed:run```
 keep the password in the backend. Don't send the password when you want to withdraw user. Encrypt the fron-back password
 here it is: compare the encrypted versions to the backend
 
-// 
 ## Resoruces: 
 [heroku](https://www.youtube.com/watch?v=MeChntPkKbs)
 
