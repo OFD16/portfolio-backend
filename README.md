@@ -1,25 +1,37 @@
-Error: Cannot find module 'C:\Users\CABBAR\Desktop\Node.js-learning\ders7\server' >>> npm run server cmd üzerindne
+
+## Authors
+
+- [@OFD16](https://github.com/OFD16)
 
 
-npm run server
+## Tech Stack
+
+**Backend:** Node.js, Express.js, Firebase
+
+**Database** PostgreSQL
+
+## Issues
+* ```Error: Cannot find module 'C:\Users\CABBAR\Desktop\Node.js-learning\ders7\server'``` >>> ```npm run server``` on cmd
 
 
 
-önce migration //tableları oluşturma
-sonra seed // dummy data ekleme
-heroku : https://www.youtube.com/watch?v=MeChntPkKbs
+## Get Starting: 
 
+1) first migration //create the tables
+2) then add seed // dummy data
 
-veritabanında tabloları ilk defa oluşturursan yada  değiştirirsen kullanacağın komut : npx knex migrate:up
-seedleri kaldırmak içinse : npx knex seed:run
+The command you will use if you create or change tables in the database for the first time: ```npx knex migrate:up```
+to remove seeds : ```npx knex seed:run```
 
-// şifre yi backend de tut user çekilmek istendiğidne şifreyi gönderme. fron-back şifreiy şifrelee tekrardana çarkende tekrar öyle 
-işte: şifrelenmiş hallerieni backende karşılaştır
+## TODO:
+keep the password in the backend. Don't send the password when you want to withdraw user. Encrypt the fron-back password
+here it is: compare the encrypted versions to the backend
 
 // 
+## Resoruces: 
+[heroku](https://www.youtube.com/watch?v=MeChntPkKbs)
 
-HTTP durum kodları: 
-
+**HTTP status codes:**
 200 OK 
 201 CREATED
 202 ACCEPTED
