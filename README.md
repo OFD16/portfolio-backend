@@ -31,13 +31,13 @@ here it is: compare the encrypted versions to the backend
 [heroku](https://www.youtube.com/watch?v=MeChntPkKbs)
 
 **HTTP status codes:**
-200 OK 
-201 CREATED
-202 ACCEPTED
-204 NO CONTENT
+- 200 OK 
+- 201 CREATED
+- 202 ACCEPTED
+- 204 NO CONTENT
 
-400 BAD REQUEST
-401 UNAUTHORIZED
-403 FORBIDDEN
+- 400 BAD REQUEST
+- 401 UNAUTHORIZED
+- 403 FORBIDDEN
 
-500 Internal Server Error
+- 500 Internal Server Error
