@@ -1,3 +1,5 @@
+## ABOUT
+Users can connect their portfolio websites through a single backend and organize their portfolios through the [**"Portfolio Admin Client"**](https://github.com/OFD16/portfolio-admin-client).
 
 ## Authors
 
@@ -12,7 +14,6 @@
 
 ## Issues
 * ```Error: Cannot find module 'C:\Users\CABBAR\Desktop\Node.js-learning\ders7\server'``` >>> ```npm run server``` on cmd
-
 
 
 ## Get Starting: 
